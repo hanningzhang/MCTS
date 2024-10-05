@@ -3,7 +3,7 @@ python mc_reward_data_gsm.py \
     --dataset_path HanningZhang/gsm-deepseek \
     --output_dir smooth_reward_data \
     --tensor_parallel_size 1 \
-    --num_gpus 8 \
+    --num_gpus 4 \
     --local_rank $1 \
     --sampling_num 16 \
     --split $2 
