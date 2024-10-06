@@ -1,3 +1,4 @@
+torch==2.4.0
 absl-py==2.1.0
 accelerate
 aiohttp==3.9.5
@@ -34,7 +35,6 @@ exceptiongroup==1.2.2
 fastapi==0.111.1
 fastapi-cli==0.0.4
 filelock==3.15.4
-flash-attn
 fonttools==4.53.1
 Fraction==2.2.0
 frozenlist==1.4.1
@@ -156,7 +156,6 @@ threadpoolctl==3.5.0
 tiktoken==0.6.0
 tokenizers==0.19.1
 toml==0.10.2
-torch==2.4.0
 torchaudio
 torchvision==0.19.0
 tqdm==4.66.4
@@ -170,8 +169,8 @@ tzdata==2024.1
 urllib3==2.2.2
 uvicorn==0.30.3
 uvloop==0.19.0
-vllm==0.5.5
-vllm-flash-attn==2.6.1
+vllm
+vllm-flash-attn
 wandb==0.17.5
 watchfiles==0.22.0
 websockets==12.0
