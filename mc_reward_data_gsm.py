@@ -1,7 +1,6 @@
 import json
 import re
 from tqdm import tqdm
-import stanza
 from dataclasses import dataclass, field
 from typing import Optional
 from vllm import LLM, SamplingParams
