@@ -10,4 +10,5 @@ python mc_reward_data_math.py \
     --num_gpus 1 \
     --local_rank $1 \
     --sampling_num 16 \
-    --split $2
+    --split $2 \
+    --batch_size 100

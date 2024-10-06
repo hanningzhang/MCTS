@@ -25,6 +25,7 @@ class ScriptArguments:
     local_rank:int = field(default=0)
     sampling_num:int = field(default=16)
     split:int = field(default=0)
+    batch_size: int = field(default=100)
 
 def process_dataset(raw_dataset):
     new_dataset = []
@@ -164,16 +165,36 @@ if __name__ == "__main__":
             add_generation_prompt=True, 
         )
         format_prompt.append(conversations)
-    completions = llm.generate(format_prompt, sampling_params)
+
+    # Inferences
+    num_sample = len(format_prompt)
+    batch_size = args.batch_size
+
     completions_list = []
-    for count,output in enumerate(completions):
-        prompt_temp = output.prompt
-        generated_text = [output.outputs[i].text for i in range(len(output.outputs))]
-        if "The answer is" in processed_dataset[count]:
-            completions_list.append({"prompt":processed_dataset[count],"completions":["" for i in range(len(generated_text))]})
-        else:
-            completions_list.append({"prompt":processed_dataset[count],"completions":generated_text})
-        
-    os.makedirs(args.output_dir,exist_ok=True)
-    with open(f"{args.output_dir}/data_math_split{args.split}_{args.local_rank}.json",'w') as f:
-        json.dump(completions_list,f,indent=4,ensure_ascii=False)
+    for start_index in range(0, num_sample, batch_size):
+        end_index = min(start_index + batch_size, num_sample)
+        batch_prompt = format_prompt[start_index:end_index]
+        completions = llm.generate(batch_prompt, sampling_params)
+
+        for count, output in enumerate(completions):
+            prompt_temp = output.prompt
+            generated_text = [
+                output.outputs[i].text for i in range(len(output.outputs))
+            ]
+
+            index = count + start_index
+            if "The answer is" in processed_dataset[index]:
+                completions_list.append({
+                    "prompt": processed_dataset[index],
+                    "completions": ["" for i in range(len(generated_text))]
+                })
+            else:
+                completions_list.append({
+                    "prompt": processed_dataset[index],
+                    "completions": generated_text
+                })
+
+        # Saves results every batch
+        os.makedirs(args.output_dir, exist_ok=True)
+        with open(f"{args.output_dir}/data_math_split{args.split}_{args.local_rank}.json", 'w') as f:
+            json.dump(completions_list, f, indent=4, ensure_ascii=False)
