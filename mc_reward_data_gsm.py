@@ -164,12 +164,22 @@ if __name__ == "__main__":
         )
         format_prompt.append(conversations)
 
+    # Resumes from previous inference
+    completions_list = []
+
+    os.makedirs(args.output_dir, exist_ok=True)
+    output_file = f"{args.output_dir}/data_gsm_split{args.split}_{args.local_rank}.json"
+    if os.path.exists(output_file):
+        with open(output_file, 'r') as f:
+            completions_list = json.load(f)
+
     # Inferences
     num_sample = len(format_prompt)
+    num_processed_sample = len(completions_list)
     batch_size = args.batch_size
+    assert num_processed_sample % batch_size == 0
 
-    completions_list = []
-    for start_index in tqdm(range(0, num_sample, batch_size)):
+    for start_index in tqdm(range(num_processed_sample, num_sample, batch_size)):
         end_index = min(start_index + batch_size, num_sample)
         batch_prompt = format_prompt[start_index:end_index]
         completions = llm.generate(
@@ -199,6 +209,5 @@ if __name__ == "__main__":
         # Saves results every {num_batches_per_save} batches
         num_batch_processed = start_index // batch_size + 1
         if num_batch_processed % args.num_batches_per_save == 0:
-            os.makedirs(args.output_dir, exist_ok=True)
-            with open(f"{args.output_dir}/data_gsm_split{args.split}_{args.local_rank}.json", 'w') as f:
+            with open(output_file, 'w') as f:
                 json.dump(completions_list, f, indent=4, ensure_ascii=False)
