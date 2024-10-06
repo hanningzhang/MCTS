@@ -20,6 +20,6 @@ for id in 0 1 2 3; do for split in 0 1; do
     ./mc_reward_data_${exp}.sh ${id} ${split} \
     > log/sh_${exp_name}.log \
     2> log/sh_${exp_name}.err &
-    sleep 10
+    sleep 1
   done
 done

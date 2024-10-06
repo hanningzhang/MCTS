@@ -7,7 +7,7 @@ python mc_reward_data_math.py \
     --dataset_path HanningZhang/math-deepseek \
     --output_dir smooth_reward_data \
     --tensor_parallel_size 1 \
-    --num_gpus 1 \
+    --num_gpus 4 \
     --local_rank $1 \
     --sampling_num 16 \
     --split $2 \
