@@ -125,14 +125,15 @@ if __name__ == "__main__":
     
     #step_tag = 'ки' 
     processed_dataset = []
-    if args.split == 0:
-        dataset = dataset[:int(0.25*len(dataset))]
-    elif args.split == 1:
-        dataset = dataset[int(0.25*len(dataset)):int(0.5*len(dataset))]
-    elif args.split == 2:
-        dataset = dataset[int(0.5*len(dataset)):int(0.75*len(dataset))]
-    else:
-        dataset = dataset[int(0.75*len(dataset)):]
+    dataset = dataset[int((args.split/8)*len(dataset)):int(((args.split+1)/8)*len(dataset))]
+    # if args.split == 0:
+    #     dataset = dataset[:int(0.25*len(dataset))]
+    # elif args.split == 1:
+    #     dataset = dataset[int(0.25*len(dataset)):int(0.5*len(dataset))]
+    # elif args.split == 2:
+    #     dataset = dataset[int(0.5*len(dataset)):int(0.75*len(dataset))]
+    # else:
+    #     dataset = dataset[int(0.75*len(dataset)):]
     dataset = dataset[int((args.local_rank)/args.num_gpus * len(dataset)):int((args.local_rank+1)/args.num_gpus * len(dataset))]
     for sample in tqdm(dataset):
         step_list = sample.split('\n')
