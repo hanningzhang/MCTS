@@ -16,9 +16,11 @@ for id in 0 1 2 3; do
         --cpus-per-task=32 \
         --mem=128g \
         --time=48:00:00 \
+        --output="log/${exp_name}.log" \
+        --error="log/${exp_name}.err" \
         ./mc_reward_data_${exp}.sh ${id} ${split} \
-        > log/${exp}-${id}-${split}.log \
-        2> log/${exp}-${id}-${split}.err &
+        > log/sh_${exp}-${id}-${split}.log \
+        2> log/sh_${exp}-${id}-${split}.err &
     sleep 10
   done
 done
