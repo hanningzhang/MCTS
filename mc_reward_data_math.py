@@ -26,6 +26,9 @@ class ScriptArguments:
     sampling_num:int = field(default=16)
     split:int = field(default=0)
     batch_size: int = field(default=100)
+    num_batches_per_save: int = field(
+        default=10, metadata={"help": "save every {save_frequency} batches"}
+    )
 
 def process_dataset(raw_dataset):
     new_dataset = []
@@ -171,10 +174,14 @@ if __name__ == "__main__":
     batch_size = args.batch_size
 
     completions_list = []
-    for start_index in range(0, num_sample, batch_size):
+    for start_index in tqdm(range(0, num_sample, batch_size)):
         end_index = min(start_index + batch_size, num_sample)
         batch_prompt = format_prompt[start_index:end_index]
-        completions = llm.generate(batch_prompt, sampling_params)
+        completions = llm.generate(
+            batch_prompt,
+            sampling_params,
+            use_tqdm=False,
+        )
 
         for count, output in enumerate(completions):
             prompt_temp = output.prompt
@@ -194,7 +201,9 @@ if __name__ == "__main__":
                     "completions": generated_text
                 })
 
-        # Saves results every batch
-        os.makedirs(args.output_dir, exist_ok=True)
-        with open(f"{args.output_dir}/data_math_split{args.split}_{args.local_rank}.json", 'w') as f:
-            json.dump(completions_list, f, indent=4, ensure_ascii=False)
+        # Saves results every {num_batches_per_save} batches
+        num_batch_processed = start_index // batch_size + 1
+        if num_batch_processed % args.num_batches_per_save == 0:
+            os.makedirs(args.output_dir, exist_ok=True)
+            with open(f"{args.output_dir}/data_math_split{args.split}_{args.local_rank}.json", 'w') as f:
+                json.dump(completions_list, f, indent=4, ensure_ascii=False)
