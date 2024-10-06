@@ -173,7 +173,7 @@ if __name__ == "__main__":
     completions_list = []
 
     os.makedirs(args.output_dir, exist_ok=True)
-    output_file = f"{args.output_dir}/data_gsm_split{args.split}_{args.local_rank}.json"
+    output_file = f"{args.output_dir}/data_math_split{args.split}_{args.local_rank}.json"
     if os.path.exists(output_file):
         with open(output_file, 'r') as f:
             completions_list = json.load(f)
