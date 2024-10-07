@@ -1,6 +1,7 @@
 #!/bin/bash
 
 exp=math
+mkdir -p log
 while true; do
   for partition in gpuA100x4 gpuA40x4; do
     for account in bdjz-delta-gpu bckr-delta-gpu; do
@@ -31,7 +32,7 @@ while true; do
         done
       done
       sleep 120
-      squeue -u rpan2 | grep PD | awk '{ print $1 }' | xargs scancel
+      squeue -u ${USER} | grep PD | awk '{ print $1 }' | xargs scancel
     done
   done
   sleep 120
