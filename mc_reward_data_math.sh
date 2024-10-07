@@ -3,7 +3,7 @@ export VLLM_CACHE_ROOT='/tmp/rpan2_vllm_cache_s-$1.r-$2_math'
 export XDG_CACHE_HOME='/tmp/rpan2_xdg_cache_s-$1.r-$2_math'
 export OUTLINES_CACHE_DIR='/tmp/rpan2_outline_cache_s-$1.r-$2_math'
 
-mkdir tmp
+mkdir -p tmp
 mark=tmp/math-$1-$2
 
 if [ -f ${mark}.ongoing ]; then
