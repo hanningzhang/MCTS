@@ -3,7 +3,7 @@
 exp=math
 mkdir -p log
 while true; do
-  for partition in gpuA100x4 gpuA40x4; do
+  for partition in gpuA40x4 gpuA100x4; do
     for account in bdjz-delta-gpu bckr-delta-gpu; do
       for id in 0 1 2 3; do
         for split in 0 1 2 3 4 5 6 7; do
