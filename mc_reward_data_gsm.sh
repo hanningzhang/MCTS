@@ -15,7 +15,7 @@ touch ${mark}.ongoing
 python mc_reward_data_gsm.py \
     --completion_model_name_or_path deepseek-ai/deepseek-math-7b-rl \
     --dataset_path HanningZhang/gsm-deepseek \
-    --output_dir smooth_reward_data \
+    --output_dir /scratch/bckr/rpan2/smooth_reward_data \
     --tensor_parallel_size 1 \
     --num_gpus 4 \
     --local_rank $1 \
