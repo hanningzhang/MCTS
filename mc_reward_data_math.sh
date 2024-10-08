@@ -22,7 +22,7 @@ python mc_reward_data_math.py \
     --local_rank $1 \
     --sampling_num 16 \
     --split $2 \
-    --batch_size 100 \
+    --batch_size 50 \
     --num_batches_per_save 2
 
 if [ $? -eq 0 ]; then
