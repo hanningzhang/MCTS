@@ -9,7 +9,7 @@ for id in 0 1 2 3; do for split in 0 1; do
   echo "$(date): ${exp_name}"
   sbatch \
     --job-name="${exp}-${id}-${split}" \
-    --account=bckr-delta-gpu \
+    --account=bdjz-delta-gpu \
     --partition=gpuA40x4 \
     --nodes=1 \
     --gpus-per-node=1 \

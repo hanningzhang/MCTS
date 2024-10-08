@@ -10,19 +10,20 @@ if [ -f ${mark}.ongoing ]; then
   echo "$(date):    skip ${mark}..."
   exit 0
 fi
+trap "rm -f ${mark}.ongoing; exit" SIGINT SIGTERM SIGKILL
 touch ${mark}.ongoing
 
 python mc_reward_data_math.py \
     --completion_model_name_or_path deepseek-ai/deepseek-math-7b-rl \
     --dataset_path HanningZhang/math-deepseek \
-    --output_dir /scratch/bckr/rpan2/smooth_reward_data \
+    --output_dir /scratch/bdjz/rpan2/smooth_reward_data \
     --tensor_parallel_size 1 \
     --num_gpus 4 \
     --local_rank $1 \
     --sampling_num 16 \
     --split $2 \
     --batch_size 100 \
-    --num_batches_per_save 10
+    --num_batches_per_save 2
 
 if [ $? -eq 0 ]; then
   touch ${mark}.complete

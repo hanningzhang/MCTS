@@ -31,6 +31,6 @@ for partition in gpuA40x4 gpuA100x4; do
       done
     done
     sleep 120
-    squeue -u ${USER} | grep PD | awk '{ print $1 }' | xargs scancel
+    squeue -u ${USER} | grep PD | grep math | awk '{ print $1 }' | xargs scancel
   done
 done
