@@ -184,7 +184,6 @@ if __name__ == "__main__":
     batch_size = args.batch_size
     assert num_processed_sample % batch_size == 0
 
-    completions_list = []
     for start_index in tqdm(range(num_processed_sample, num_sample, batch_size)):
         end_index = min(start_index + batch_size, num_sample)
         batch_prompt = format_prompt[start_index:end_index]

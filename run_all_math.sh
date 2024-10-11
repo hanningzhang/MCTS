@@ -7,7 +7,7 @@ for partition in gpuA40x4 gpuA100x4; do
     for id in 0 1 2 3; do
       for split in 0 1 2 3 4 5 6 7; do
         exp_name="${exp}-${id}-${split}"
-        if [ -f tmp/${exp_name}.ongoing ]; then
+        if [ -f tmp/${exp_name}.ongoing -o -f tmp/${exp_name}.complete ]; then
           continue
         fi
         echo "$(date): ${exp_name}"

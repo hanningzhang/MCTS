@@ -6,7 +6,7 @@ export OUTLINES_CACHE_DIR='/tmp/rpan2_outline_cache_s-$1.r-$2'
 mkdir -p tmp
 mark=tmp/gsm-$1-$2
 
-if [ -f ${mark}.ongoing ]; then
+if [ -f ${mark}.ongoing -o -f ${mark}.complete ]; then
   echo "$(date):    skip ${mark}..."
   exit 0
 fi
@@ -23,7 +23,7 @@ python mc_reward_data_gsm.py \
     --sampling_num 16 \
     --split $2 \
     --batch_size 50 \
-    --num_batches_per_save 10
+    --num_batches_per_save 1
 
 if [ $? -eq 0 ]; then
   touch ${mark}.complete
